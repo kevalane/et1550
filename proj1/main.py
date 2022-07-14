@@ -37,6 +37,7 @@ print("Dataset normalized.")
 # Write your code between the lines (~ 1 line)
 #################################################
 train_set_norm, test_set_norm = train_test_split(dataset, train_size=0.8, test_size=0.2, random_state=100)
+print(train_set_norm.head())
 #################################################
 print("Dataset split.")
 
@@ -55,8 +56,8 @@ feature_columns.append(Air)
 # Write your code between the lines (~ 2 lines)
 #################################################
 # Represent Instrument_Air_NM3 as a floating-point value.
-instrument_air = tf.feature_column.numeric_column("Instrument_Air_NM3")
-feature_columns.append(instrument_air)
+#instrument_air = tf.feature_column.numeric_column("Instrument_Air_NM3")
+#feature_columns.append(instrument_air)
 
 #################################################
 
@@ -125,7 +126,7 @@ print("Defined the create_model and train_model functions.")
 # The following variables are the hyperparameters.
 # Write your code between the lines (~ 3 lines)
 #################################################
-learning_rate = 0.01
+learning_rate = 0.1
 epochs = 200
 batch_size = 7
 #################################################
@@ -141,3 +142,9 @@ plot_the_loss_curve(epochs, mse)
 
 print("\nThe learned weight for your model is", weight)
 print("The learned bias for your model is", bias )
+
+# Evaluate the trained model against the test set.
+test_features = {name:np.array(value) for name, value in test_set_norm.items()}
+test_label = np.array(test_features.pop(label_name)) # isolate the label
+print("\n Evaluate the trained linear regression model against the test set:")
+model_1.evaluate(x = test_features, y = test_label, batch_size=7)
