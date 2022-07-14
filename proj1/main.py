@@ -36,7 +36,7 @@ print("Dataset normalized.")
 # Split the dataset into the training set (80%) and the test set (20%).
 # Write your code between the lines (~ 1 line)
 #################################################
-train_set_norm, test_set_norm = train_test_split(dataset, train_size=0.8, test_size=0.2, random_state=100)
+train_set_norm, test_set_norm = train_test_split(dataset_norm, train_size=0.8, test_size=0.2, random_state=100)
 print(train_set_norm.head())
 #################################################
 print("Dataset split.")
