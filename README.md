@@ -8,4 +8,5 @@ Kevin Rasmusson
 
 ## Can I use the code?
 
-Feel free!
+Feel free! However, if rules regarding copying have been specified by 
+instructor, proceed with caution.
