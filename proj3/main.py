@@ -68,8 +68,9 @@ print("transformed shape:", X_pca.shape)
 plt.figure(figsize=(11,11))
 plt.xlabel('principal component 1')
 plt.ylabel('principal component 2')
-for i,type in enumerate(y_dataset):
-    (x1, x2) = X_pca[i]
+#for i,type in enumerate(y_dataset):
+for i, type in np.ndenumerate(y_dataset):
+    (x1, x2) = X_pca[i[0]]
     plt.scatter(x1, x2)
     plt.text(x1+0.05, x2+0.05, type, fontsize=10)
 plt.show()
