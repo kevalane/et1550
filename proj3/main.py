@@ -4,6 +4,11 @@ from matplotlib import pyplot as plt
 import seaborn as sns; 
 sns.set()
 from sklearn.decomposition import PCA
+from sklearn.datasets import load_digits
+from sklearn.cluster import KMeans
+from scipy.stats import mode
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
 
 # The following lines adjust the granularity of reporting. 
 pd.options.display.max_rows = 10
@@ -74,3 +79,58 @@ for i, type in np.ndenumerate(y_dataset):
     plt.scatter(x1, x2)
     plt.text(x1+0.05, x2+0.05, type, fontsize=10)
 plt.show()
+
+
+#################################################
+# PART 2:
+#################################################
+
+
+digits = load_digits()
+X_dataset_ = digits.data
+y_dataset_ = digits.target
+
+print('Dataset loaded.')
+
+# Define the k-means clustering model and fit the model.
+# Write your code between the lines (~ 2 lines)
+#################################################
+kmeans = KMeans(n_clusters=10, random_state=0)
+kmeans.fit(X_dataset_)
+#################################################
+
+# Find cluster index for each data point.
+# Write your code between the lines (~ 1 line)
+#################################################
+clusters = kmeans.fit_predict(X_dataset_)
+#################################################
+
+kmeans.cluster_centers_.shape
+
+fig, ax = plt.subplots(2, 5, figsize=(8, 3))
+centers = kmeans.cluster_centers_.reshape(10, 8, 8)
+for axi, center in zip(ax.flat, centers):
+    axi.set(xticks=[], yticks=[])
+    axi.imshow(center, interpolation='nearest', cmap=plt.cm.binary)
+
+labels = np.zeros_like(clusters)
+for i in range(10):
+    mask = (clusters == i)
+    labels[mask] = mode(y_dataset_[mask])[0]
+
+print('Cluster indexes fixed.')
+
+# Find the accuracy score of the k-means clustering.
+# Write your code between the lines (~ 1 line)
+#################################################
+kmeans_accuracy = accuracy_score(y_dataset_, labels)
+#################################################
+print(kmeans_accuracy)
+
+mat = confusion_matrix(digits.target, labels)
+plt.figure(figsize=(8,8))
+sns.heatmap(mat.T, square=True, annot=True, fmt='d', cbar=False,
+            xticklabels=digits.target_names,
+            yticklabels=digits.target_names)
+plt.xlabel('true label')
+plt.ylabel('predicted label')
